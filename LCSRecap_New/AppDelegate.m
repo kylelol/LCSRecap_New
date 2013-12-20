@@ -7,12 +7,16 @@
 //
 
 #import "AppDelegate.h"
+#import "LCSRecapUtilities.h"
 
 @implementation AppDelegate
 
 - (BOOL)application:(UIApplication *)application didFinishLaunchingWithOptions:(NSDictionary *)launchOptions
 {
     // Override point for customization after application launch.
+    
+    
+    [LCSRecapUtilities initializeLCSRecapApp];
     return YES;
 }
 							
