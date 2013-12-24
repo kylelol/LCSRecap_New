@@ -51,8 +51,8 @@
             [self.sideMenuViewController hideMenuViewController];
             break;
         case 1:
-           /* navigationController.viewControllers = @[[self.storyboard instantiateViewControllerWithIdentifier:@"secondController"]];
-            [self.sideMenuViewController hideMenuViewController];*/
+           navigationController.viewControllers = @[[self.storyboard instantiateViewControllerWithIdentifier:@"teamsController"]];
+            [self.sideMenuViewController hideMenuViewController];
             break;
         default:
             break;

@@ -9,6 +9,8 @@
 #import <Foundation/Foundation.h>
 
 typedef void (^SeasonRetrievedCompletionBlock)(BOOL success, NSError *error, NSArray *seasons);
+typedef void (^TeamsRetrievedCompletionBlock)(BOOL success, NSError *error, NSArray *teams);
+
 
 @interface LCSRecapUtilities : NSObject
 
@@ -20,6 +22,9 @@ typedef void (^SeasonRetrievedCompletionBlock)(BOOL success, NSError *error, NSA
 #pragma mark - LCSRecap API
 -(void)getAllSeasonsForRegion:(NSString *)region
                    withCompletion:(SeasonRetrievedCompletionBlock)completionBlock;
+
+-(void)getAllTeamsForRegion:(NSString*)region
+             withCompletion:(TeamsRetrievedCompletionBlock)completionBlock;
 
 -(void)saveCurrentState;
 

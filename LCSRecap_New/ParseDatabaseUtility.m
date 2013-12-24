@@ -9,6 +9,7 @@
 #import "ParseDatabaseUtility.h"
 #import <Parse/Parse.h>
 #import "SeasonModel.h"
+#import "TeamModel.h"
 
 @implementation ParseDatabaseUtility
 
@@ -16,6 +17,7 @@
 {
     PFQuery *query = [SeasonModel query];
     [query whereKey:@"region" equalTo:region];
+    [query orderByAscending:@"createdAt"];
     
     [query findObjectsInBackgroundWithBlock:^(NSArray *objects, NSError *error) {
         if (completionBlock)
@@ -25,5 +27,20 @@
     }];
     
 }
+
+-(void)requestAllTeamsForRegion:(NSString*)region
+                 withCompletion:(TeamsRetrievedFromParseCompletionBlock)completionBlock
+{
+    PFQuery *query = [TeamModel query];
+    [query whereKey:@"region" equalTo:region];
+    
+    [query findObjectsInBackgroundWithBlock:^(NSArray *objects, NSError *error) {
+        if (completionBlock)
+        {
+            completionBlock(YES, error, objects);
+        }
+    }];
+}
+
 
 @end

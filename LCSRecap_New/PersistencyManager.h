@@ -11,10 +11,18 @@
 @interface PersistencyManager : NSObject
 
 -(NSArray *)getSeasonsForRegion:(NSString*)region;
+-(NSArray *)getAllTeamsForRegion:(NSString*)region;
 
 -(void)addSeasonsArrayToDictionary:(NSArray*)seasons
                     forRegion:(NSString*)region;
 
+-(void)addTeamArray:(NSArray*)team
+ToDictionaryForRegion:(NSString*)region
+
+          forSeason:(NSString*)season;
+
 -(void)saveData;
+
+@property (nonatomic, strong) NSDate *lastSavedDate;
 
 @end

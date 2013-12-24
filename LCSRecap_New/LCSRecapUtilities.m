@@ -11,6 +11,7 @@
 #import "ParseDatabaseUtility.h"
 #import "PersistencyManager.h"
 #import "SeasonModel.h"
+#import "TeamModel.h"
 
 @interface LCSRecapUtilities()
 
@@ -24,6 +25,8 @@
 {
     
     [SeasonModel registerSubclass];
+    [TeamModel registerSubclass];
+    
     
     NSString *path = [[NSBundle mainBundle] pathForResource:@"keys" ofType:@"plist"];
     NSDictionary *keys = [NSDictionary dictionaryWithContentsOfFile:path];
@@ -94,6 +97,59 @@
             completionBlock(YES, nil, [self.persistencyManager getSeasonsForRegion:region]);
         }
     }
+    
+}
+
+-(void)getAllTeamsForRegion:(NSString *)region withCompletion:(TeamsRetrievedCompletionBlock)completionBlock
+{
+    NSArray *seasons = [self.persistencyManager getSeasonsForRegion:region];
+    
+    if (seasons)
+    {
+        // Check to see if teams are already alocated.
+        if ( [[self.persistencyManager getAllTeamsForRegion:region] count] == 0 )
+        {
+            //if not request them from database utility
+            [self.parseDatabaseUtility requestAllTeamsForRegion:region withCompletion:^(BOOL success, NSError *error, NSArray *teams) {
+                
+                if (success)
+                {
+                    // Separate them into seasons. 
+                    for( int i=0; i < seasons.count; i++)
+                    {
+                        NSMutableArray *array = [[NSMutableArray alloc] init];
+                        
+                        for(int j=0; j < teams.count; j++)
+                        {
+                            if ( [((SeasonModel*)seasons[i]).key isEqualToString:((TeamModel*)teams[j]).season])
+                            {
+                                
+                                [array addObject:teams[j]];
+                            }
+                            
+                        }
+                        
+                        [self.persistencyManager addTeamArray:[NSArray arrayWithArray:array]
+                                        ToDictionaryForRegion:region
+                                                    forSeason:((SeasonModel*)seasons[i]).key];
+                    }
+                    
+                    if (completionBlock)
+                        completionBlock(YES, error, [self.persistencyManager getAllTeamsForRegion:region]);
+                }
+            }];
+
+        }
+        else
+        {
+            // Send the saved ones.
+            if (completionBlock)
+                completionBlock(YES,nil, [self.persistencyManager getAllTeamsForRegion:region]);
+        }
+        
+        
+    }
+
     
 }
 

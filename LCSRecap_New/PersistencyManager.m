@@ -7,10 +7,12 @@
 //
 
 #import "PersistencyManager.h"
+#import "TeamModel.h"
 
 @interface PersistencyManager()
 
 @property (nonatomic, strong) NSMutableDictionary *allSeasonsDictionary;
+@property (nonatomic, strong) NSMutableDictionary *allTeamsDictionary;
 
 @end
 
@@ -22,10 +24,20 @@
     self = [super init];
     if (self)
     {
-        //TODO: Add update logic to update after an elapsed time.
-        NSData *data = [NSData dataWithContentsOfFile:[NSHomeDirectory() stringByAppendingFormat:@"/Documents/seasons.bin"]];
         
-        self.allSeasonsDictionary = [NSKeyedUnarchiver unarchiveObjectWithData:data];
+        self.lastSavedDate = [[NSUserDefaults standardUserDefaults] objectForKey:@"lastSave"];
+        
+        NSInteger hours = [[[NSCalendar currentCalendar] components:NSHourCalendarUnit fromDate:self.lastSavedDate toDate:[NSDate date] options:0] hour];
+        
+        NSData *data = [NSData dataWithContentsOfFile:[NSHomeDirectory() stringByAppendingFormat:@"/Documents/seasons.bin"]];
+        NSData *teamData = [NSData dataWithContentsOfFile:[NSHomeDirectory() stringByAppendingString:@"/Documents/teams.bin"]];
+        
+        if ( hours < 5)
+        {
+            self.allSeasonsDictionary = [NSKeyedUnarchiver unarchiveObjectWithData:data];
+            self.allTeamsDictionary = [NSKeyedUnarchiver unarchiveObjectWithData:teamData];
+            NSLog(@"Should Load Team Data");
+        }
         
         if (self.allSeasonsDictionary == nil)
         {
@@ -37,6 +49,18 @@
         {
             NSLog(@"Did Retrieve saved Data");
         }
+        
+
+        
+        if (self.allTeamsDictionary == nil)
+        {
+            self.allTeamsDictionary = [[NSMutableDictionary alloc] init];
+            NSLog(@"No Previous Team Data");
+        }
+        else
+        {
+            NSLog(@"Did Retrieve Saved Team Data");
+        }
     }
     
     return self;
@@ -47,6 +71,12 @@
     return self.allSeasonsDictionary[region];
 }
 
+-(NSArray *)getAllTeamsForRegion:(NSString *)region
+{
+    NSLog(@"%@", [self.allTeamsDictionary[region] class]);
+    return [NSArray arrayWithArray:self.allTeamsDictionary[region]];
+}
+
 -(void)addSeasonsArrayToDictionary:(NSArray*)seasons
                          forRegion:(NSString*)region
 {
@@ -55,9 +85,57 @@
     
 }
 
+-(void)addTeamArray:(NSArray*)team
+ToDictionaryForRegion:(NSString*)region
+
+          forSeason:(NSString*)season
+{
+    
+    if (![self.allTeamsDictionary objectForKey:region])
+    {
+        NSMutableArray *dictionary = [[NSMutableArray alloc] init];
+        
+        [dictionary addObject:team];
+        
+        [self.allTeamsDictionary setObject:dictionary forKey:region];
+        
+        return;
+        
+    }
+    
+    BOOL seasonFound = NO;
+    for (NSMutableArray *array in [self.allTeamsDictionary objectForKey:region])
+    {
+        if ( [((TeamModel*)array[0]).season isEqualToString:season])
+        {
+            NSLog(@"TESTTRUUE");
+        }
+    }
+    
+    if ( !seasonFound )
+    {
+        [[self.allTeamsDictionary objectForKey:region] addObject:team];
+    }
+    
+
+        
+}
+
 -(void)saveData
 {
     [self saveAllSeasonsDictionary];
+    [self saveAllTeamsDictionary];
+    
+    self.lastSavedDate = [NSDate date];
+    [[NSUserDefaults standardUserDefaults] setObject:self.lastSavedDate forKey:@"lastSave"];
+
+}
+
+-(void)saveAllTeamsDictionary
+{
+    NSString *filename = [NSHomeDirectory() stringByAppendingString:@"/Documents/teams.bin"];
+    NSData *data = [NSKeyedArchiver archivedDataWithRootObject:self.allTeamsDictionary];
+    [data writeToFile:filename atomically:YES];
 }
 
 -(void)saveAllSeasonsDictionary
