@@ -20,7 +20,7 @@
     self.contentViewController = [self.storyboard instantiateViewControllerWithIdentifier:@"contentController"];
     self.menuViewController = [self.storyboard instantiateViewControllerWithIdentifier:@"menuController"];
     self.delegate = (MenuViewController *)self.menuViewController;
-    self.view.backgroundColor = [UIColor colorWithRed:0.1 green:0.1 blue:0.1 alpha:1];
+    self.view.backgroundColor = [UIColor colorWithRed:0.8 green:0.8 blue:0.8 alpha:1];
     //self.panGestureEnabled = NO;
     // self.backgroundImage = [UIImage imageNamed:@"ahri"];
 }

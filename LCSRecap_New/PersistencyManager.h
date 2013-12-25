@@ -22,6 +22,8 @@ ToDictionaryForRegion:(NSString*)region
           forSeason:(NSString*)season;
 
 -(void)saveData;
+-(void)saveImage:(UIImage *)image filename:(NSString *)filename;
+-(UIImage *)getImage:(NSString *)filename;
 
 @property (nonatomic, strong) NSDate *lastSavedDate;
 

@@ -10,6 +10,7 @@
 
 typedef void (^SeasonRetrievedCompletionBlock)(BOOL success, NSError *error, NSArray *seasons);
 typedef void (^TeamsRetrievedCompletionBlock)(BOOL success, NSError *error, NSArray *teams);
+typedef void (^TeamLogoRetrievedCompletionBlock)(BOOL success, UIImage *teamLogo);
 
 
 @interface LCSRecapUtilities : NSObject
@@ -25,6 +26,9 @@ typedef void (^TeamsRetrievedCompletionBlock)(BOOL success, NSError *error, NSAr
 
 -(void)getAllTeamsForRegion:(NSString*)region
              withCompletion:(TeamsRetrievedCompletionBlock)completionBlock;
+
+-(void)getTeamLogoForUrl:(NSString*)url
+          withCompletion:(TeamLogoRetrievedCompletionBlock)completionBlock;
 
 -(void)saveCurrentState;
 

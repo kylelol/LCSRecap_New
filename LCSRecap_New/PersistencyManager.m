@@ -26,7 +26,8 @@
     {
         
         self.lastSavedDate = [[NSUserDefaults standardUserDefaults] objectForKey:@"lastSave"];
-        
+        NSLog(@"%@", self.lastSavedDate);
+
         NSInteger hours = [[[NSCalendar currentCalendar] components:NSHourCalendarUnit fromDate:self.lastSavedDate toDate:[NSDate date] options:0] hour];
         
         NSData *data = [NSData dataWithContentsOfFile:[NSHomeDirectory() stringByAppendingFormat:@"/Documents/seasons.bin"]];
@@ -119,6 +120,21 @@ ToDictionaryForRegion:(NSString*)region
     
 
         
+}
+
+-(void)saveImage:(UIImage *)image filename:(NSString *)filename
+{
+    NSLog(@"DId Save image");
+    filename = [NSHomeDirectory() stringByAppendingFormat:@"/Documents/%@", filename];
+    NSData *data = UIImagePNGRepresentation(image);
+    [data writeToFile:filename atomically:YES];
+}
+
+-(UIImage *)getImage:(NSString *)filename
+{
+    filename = [NSHomeDirectory() stringByAppendingFormat:@"/Documents/%@", filename];
+    NSData *data = [NSData dataWithContentsOfFile:filename];
+    return [UIImage imageWithData:data];
 }
 
 -(void)saveData

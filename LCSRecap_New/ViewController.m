@@ -9,6 +9,7 @@
 #import "ViewController.h"
 #import "LCSRecapUtilities.h"
 #import "SeasonModel.h"
+#import "SeasonEventCell.h"
 
 @interface ViewController () <UITableViewDataSource, UITableViewDelegate>
 
@@ -26,6 +27,8 @@
     
     self.tableView.dataSource = self;
     self.tableView.delegate = self;
+   // self.tableView.separatorStyle = UITableViewCellSeparatorStyleNone;
+    self.tableView.backgroundView = nil;
     
     [[LCSRecapUtilities sharedUtilities] getAllSeasonsForRegion:@"NA"
                                                  withCompletion:^(BOOL success, NSError *error, NSArray *seasons){
@@ -37,6 +40,8 @@
                                                  }];
     
     [[NSNotificationCenter defaultCenter] addObserver:self selector:@selector(saveCurrentState) name:UIApplicationDidEnterBackgroundNotification object:nil];
+    
+    [self.tableView registerNib:[UINib nibWithNibName:@"SeasonEventCell" bundle:nil] forCellReuseIdentifier:@"cell"];
     
 
 }
@@ -66,13 +71,14 @@
 
 -(UITableViewCell *)tableView:(UITableView *)tableView cellForRowAtIndexPath:(NSIndexPath *)indexPath
 {
-    UITableViewCell *cell = [tableView dequeueReusableCellWithIdentifier:@"cell"];
+     SeasonEventCell *cell = (SeasonEventCell*)[tableView dequeueReusableCellWithIdentifier:@"cell"];
     
     SeasonModel *currentSeason = [self.seasonsArray objectAtIndex:indexPath.section];
-    cell.textLabel.text = [currentSeason getEventNameAtIndex:indexPath.row];
+    //cell.textLabel.text = [currentSeason getEventNameAtIndex:indexPath.row];
+    cell.seasonEventNameLabel.text = [currentSeason getEventNameAtIndex:indexPath.row]; 
     
-    cell.backgroundView = nil;
-    cell.backgroundColor = [UIColor clearColor];
+   // cell.backgroundView = nil;
+   // cell.backgroundColor = [UIColor clearColor];
     
     return cell;
 }
@@ -80,6 +86,11 @@
 -(NSString *)tableView:(UITableView *)tableView titleForHeaderInSection:(NSInteger)section
 {
     return ((SeasonModel*)[self.seasonsArray objectAtIndex:section]).name;
+}
+
+-(CGFloat)tableView:(UITableView *)tableView heightForRowAtIndexPath:(NSIndexPath *)indexPath
+{
+    return 77;
 }
 
 @end

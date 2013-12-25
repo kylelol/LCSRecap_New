@@ -16,5 +16,6 @@
 @property (nonatomic, strong) NSString* season;
 @property (nonatomic, strong) NSString* teamName;
 @property (nonatomic, strong) NSString *region;
+@property (nonatomic, strong) NSString *logoUrl;
 
 @end

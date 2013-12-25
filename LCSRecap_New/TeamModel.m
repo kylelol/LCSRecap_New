@@ -16,6 +16,7 @@
 @dynamic season;
 @dynamic teamName;
 @dynamic region;
+@dynamic logoUrl;
 
 +(NSString *)parseClassName
 {

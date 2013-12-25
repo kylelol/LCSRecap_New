@@ -153,6 +153,37 @@
     
 }
 
+-(void)getTeamLogoForUrl:(NSString *)url withCompletion:(TeamLogoRetrievedCompletionBlock)completionBlock
+{
+    
+    UIImage *image = [self.persistencyManager getImage:[url lastPathComponent]];
+    
+    if (image == nil)
+    {
+        NSLog(@"Loads image");
+        dispatch_async(dispatch_get_global_queue(DISPATCH_QUEUE_PRIORITY_DEFAULT, 0), ^{
+        
+            NSData *imageData = [NSData dataWithContentsOfURL:[NSURL URLWithString:url]];
+        
+            dispatch_sync(dispatch_get_main_queue(), ^{
+            
+                if ( completionBlock)
+                {
+                    completionBlock(YES, [UIImage imageWithData:imageData]);
+                    [self.persistencyManager saveImage:[UIImage imageWithData:imageData] filename:[url lastPathComponent]];
+                }
+            });
+        
+        });
+    }
+    else
+    {
+        if (completionBlock)
+            completionBlock(YES, image);
+    }
+}
+
+
 -(void)saveCurrentState
 {
     [self.persistencyManager saveData];
