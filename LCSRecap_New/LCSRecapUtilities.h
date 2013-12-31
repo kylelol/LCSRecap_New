@@ -21,6 +21,10 @@ typedef void (^TeamLogoRetrievedCompletionBlock)(BOOL success, UIImage *teamLogo
 +(instancetype)sharedUtilities;
 
 #pragma mark - LCSRecap API
+
+-(NSString*)getSeasonTitleForRegion:(NSString*)region
+                            atIndex:(NSUInteger)index;
+
 -(void)getAllSeasonsForRegion:(NSString *)region
                    withCompletion:(SeasonRetrievedCompletionBlock)completionBlock;
 

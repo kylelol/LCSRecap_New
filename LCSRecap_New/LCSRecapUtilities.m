@@ -183,6 +183,18 @@
     }
 }
 
+-(NSString*)getSeasonTitleForRegion:(NSString*)region atIndex:(NSUInteger)index
+{
+    NSArray *seasons = [self.persistencyManager getSeasonsForRegion:region];
+    
+    if (seasons)
+    {
+        return ((SeasonModel*)seasons[index]).name;
+    }
+    
+    return nil;
+}
+
 
 -(void)saveCurrentState
 {

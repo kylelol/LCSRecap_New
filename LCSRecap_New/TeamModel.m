@@ -29,6 +29,7 @@
     [aCoder encodeObject:self.season forKey:@"season-name"];
     [aCoder encodeObject:self.teamName forKey:@"team-name"];
     [aCoder encodeObject:self.region forKey:@"region-name"];
+    [aCoder encodeObject:self.logoUrl forKey:@"logoUrl"];
 
 }
 
@@ -41,6 +42,7 @@
         self.season = [aDecoder decodeObjectForKey:@"season-name"];
         self.teamName = [aDecoder decodeObjectForKey:@"team-name"];
         self.region = [aDecoder decodeObjectForKey:@"region-name"];
+        self.logoUrl = [aDecoder decodeObjectForKey:@"logoUrl"];
 
     }
     return self;

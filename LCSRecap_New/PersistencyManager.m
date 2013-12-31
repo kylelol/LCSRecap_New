@@ -33,12 +33,12 @@
         NSData *data = [NSData dataWithContentsOfFile:[NSHomeDirectory() stringByAppendingFormat:@"/Documents/seasons.bin"]];
         NSData *teamData = [NSData dataWithContentsOfFile:[NSHomeDirectory() stringByAppendingString:@"/Documents/teams.bin"]];
         
-        if ( hours < 5)
+       if ( hours < 5)
         {
             self.allSeasonsDictionary = [NSKeyedUnarchiver unarchiveObjectWithData:data];
             self.allTeamsDictionary = [NSKeyedUnarchiver unarchiveObjectWithData:teamData];
             NSLog(@"Should Load Team Data");
-        }
+       }
         
         if (self.allSeasonsDictionary == nil)
         {

@@ -10,11 +10,13 @@
 #import "LCSRecapUtilities.h"
 #import "TeamModel.h"
 #import "TeamListCell.h"
+#import "TeamListCollectionViewCell.h"
 
-@interface TeamsListViewController () <UITableViewDataSource, UITableViewDelegate>
+@interface TeamsListViewController () <UITableViewDataSource, UITableViewDelegate, UICollectionViewDataSource, UICollectionViewDelegateFlowLayout, UICollectionViewDelegate>
 
-@property (nonatomic, strong) NSArray *teamsDictionaryArray;
+//@property (nonatomic, strong) NSArray *teamsDictionaryArray;
 @property (nonatomic, weak) IBOutlet UITableView *tableView;
+@property (nonatomic, weak) IBOutlet UICollectionView *collectionView;
 
 @end
 
@@ -38,14 +40,18 @@
     self.tableView.dataSource = self;
     [self.tableView registerNib:[UINib nibWithNibName:@"TeamList" bundle:nil] forCellReuseIdentifier:@"cell"];
     
+    [self.collectionView registerNib:[UINib nibWithNibName:@"TeamListCollectionViewCell" bundle:nil]forCellWithReuseIdentifier:@"teamCell"];
     
-    [[LCSRecapUtilities sharedUtilities] getAllTeamsForRegion:@"NA" withCompletion:^(BOOL success, NSError *error, NSArray *teams) {
+    
+   /* [[LCSRecapUtilities sharedUtilities] getAllTeamsForRegion:@"NA" withCompletion:^(BOOL success, NSError *error, NSArray *teams) {
         
         self.teamsDictionaryArray = teams;
+        NSLog(@"%@", self.teamsDictionaryArray);
         
         [self.tableView reloadData];
+        [self.collectionView reloadData];
                 
-    }];
+    }];*/
     
         [[NSNotificationCenter defaultCenter] addObserver:self selector:@selector(saveCurrentState) name:UIApplicationDidEnterBackgroundNotification object:nil];
 }
@@ -61,9 +67,46 @@
     [[LCSRecapUtilities sharedUtilities] saveCurrentState];
 }
 
+#pragma mark - UICollectionViewDelegate
+
+-(NSInteger)collectionView:(UICollectionView *)collectionView numberOfItemsInSection:(NSInteger)section
+{
+    return self.teamsDictionaryArray.count;
+}
+
+-(NSInteger)numberOfSectionsInCollectionView:(UICollectionView *)collectionView
+{
+    return 1;
+    
+}
+
+- (UICollectionViewCell *)collectionView:(UICollectionView *)cv cellForItemAtIndexPath:(NSIndexPath *)indexPath
+{
+    TeamListCollectionViewCell *cell = (TeamListCollectionViewCell*)[cv dequeueReusableCellWithReuseIdentifier:@"teamCell" forIndexPath:indexPath];
+    
+        TeamModel *team = (TeamModel*)self.teamsDictionaryArray[indexPath.row];
+    
+    cell.teamNameLabel.text = team.teamName;
+    
+    [[LCSRecapUtilities sharedUtilities] getTeamLogoForUrl:team.logoUrl withCompletion:^(BOOL success, UIImage *teamLogo) {
+        cell.teamImageView.image = teamLogo;
+    }];
+    
+    
+    
+    
+    return cell;
+}
+
+-(CGSize)collectionView:(UICollectionView *)collectionView layout:(UICollectionViewLayout *)collectionViewLayout sizeForItemAtIndexPath:(NSIndexPath *)indexPath
+{
+    return CGSizeMake(150, 150);
+}
+
+
 #pragma mark - UITableViewDelegate
 
--(NSInteger)numberOfSectionsInTableView:(UITableView *)tableView
+/*-(NSInteger)numberOfSectionsInTableView:(UITableView *)tableView
 {
     return self.teamsDictionaryArray.count;
 }
@@ -99,6 +142,6 @@
 -(CGFloat)tableView:(UITableView *)tableView heightForRowAtIndexPath:(NSIndexPath *)indexPath
 {
     return 80;
-}
+}*/
 
 @end

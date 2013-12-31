@@ -10,4 +10,6 @@
 
 @interface TeamsListViewController : UIViewController
 
+@property (nonatomic, strong) NSArray *teamsDictionaryArray;
+
 @end
