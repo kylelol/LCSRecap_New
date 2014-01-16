@@ -8,9 +8,13 @@
 
 #import <Foundation/Foundation.h>
 
+@class TeamModel;
+
 typedef void (^SeasonRetrievedCompletionBlock)(BOOL success, NSError *error, NSArray *seasons);
 typedef void (^TeamsRetrievedCompletionBlock)(BOOL success, NSError *error, NSArray *teams);
 typedef void (^TeamLogoRetrievedCompletionBlock)(BOOL success, UIImage *teamLogo);
+typedef void (^PlayersRetrievedCompletionBlock)(BOOL success,  TeamModel *newTeam);
+typedef void (^EventWeekRetrievedCompletionBLock)(BOOL success, NSArray *events);
 
 
 @interface LCSRecapUtilities : NSObject
@@ -28,11 +32,16 @@ typedef void (^TeamLogoRetrievedCompletionBlock)(BOOL success, UIImage *teamLogo
 -(void)getAllSeasonsForRegion:(NSString *)region
                    withCompletion:(SeasonRetrievedCompletionBlock)completionBlock;
 
+-(void)getEventWeeksForRegion:(NSString*)region forSeason:(NSString*)season forEvent:(NSString*)event withCompletion:(EventWeekRetrievedCompletionBLock)completionBlock;
+
 -(void)getAllTeamsForRegion:(NSString*)region
              withCompletion:(TeamsRetrievedCompletionBlock)completionBlock;
 
 -(void)getTeamLogoForUrl:(NSString*)url
           withCompletion:(TeamLogoRetrievedCompletionBlock)completionBlock;
+
+-(void)getPlayersForTeam:(TeamModel*)team
+          withCompletion:(PlayersRetrievedCompletionBlock)completionBlock;
 
 -(void)saveCurrentState;
 

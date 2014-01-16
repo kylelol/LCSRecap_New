@@ -17,6 +17,8 @@
 @dynamic teamName;
 @dynamic region;
 @dynamic logoUrl;
+@dynamic teamBannerImage;
+@dynamic players;
 
 +(NSString *)parseClassName
 {
@@ -30,6 +32,8 @@
     [aCoder encodeObject:self.teamName forKey:@"team-name"];
     [aCoder encodeObject:self.region forKey:@"region-name"];
     [aCoder encodeObject:self.logoUrl forKey:@"logoUrl"];
+    [aCoder encodeObject:self.teamBannerImage forKey:@"banner-image-url"];
+    [aCoder encodeObject:self.players forKey:@"players"];
 
 }
 
@@ -43,6 +47,8 @@
         self.teamName = [aDecoder decodeObjectForKey:@"team-name"];
         self.region = [aDecoder decodeObjectForKey:@"region-name"];
         self.logoUrl = [aDecoder decodeObjectForKey:@"logoUrl"];
+        self.teamBannerImage = [aDecoder decodeObjectForKey:@"banner-image-url"];
+        self.players = [aDecoder decodeObjectForKey:@"players"];
 
     }
     return self;

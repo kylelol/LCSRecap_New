@@ -11,6 +11,7 @@
 #import "TeamModel.h"
 #import "TeamListCell.h"
 #import "TeamListCollectionViewCell.h"
+#import "TeamProfileViewController.h"
 
 @interface TeamsListViewController () <UITableViewDataSource, UITableViewDelegate, UICollectionViewDataSource, UICollectionViewDelegateFlowLayout, UICollectionViewDelegate>
 
@@ -42,18 +43,7 @@
     
     [self.collectionView registerNib:[UINib nibWithNibName:@"TeamListCollectionViewCell" bundle:nil]forCellWithReuseIdentifier:@"teamCell"];
     
-    
-   /* [[LCSRecapUtilities sharedUtilities] getAllTeamsForRegion:@"NA" withCompletion:^(BOOL success, NSError *error, NSArray *teams) {
-        
-        self.teamsDictionaryArray = teams;
-        NSLog(@"%@", self.teamsDictionaryArray);
-        
-        [self.tableView reloadData];
-        [self.collectionView reloadData];
-                
-    }];*/
-    
-        [[NSNotificationCenter defaultCenter] addObserver:self selector:@selector(saveCurrentState) name:UIApplicationDidEnterBackgroundNotification object:nil];
+    [[NSNotificationCenter defaultCenter] addObserver:self selector:@selector(saveCurrentState) name:UIApplicationDidEnterBackgroundNotification object:nil];
 }
 
 - (void)didReceiveMemoryWarning
@@ -101,6 +91,20 @@
 -(CGSize)collectionView:(UICollectionView *)collectionView layout:(UICollectionViewLayout *)collectionViewLayout sizeForItemAtIndexPath:(NSIndexPath *)indexPath
 {
     return CGSizeMake(150, 150);
+}
+
+-(void)collectionView:(UICollectionView *)collectionView didSelectItemAtIndexPath:(NSIndexPath *)indexPath
+{
+    [self performSegueWithIdentifier:@"TeamProfileVC" sender:nil];
+}
+
+-(void)prepareForSegue:(UIStoryboardSegue *)segue sender:(id)sender
+{
+    if ( [segue.identifier isEqualToString:@"TeamProfileVC"])
+    {
+        NSIndexPath *selectedIndexPath = [[self.collectionView indexPathsForSelectedItems] objectAtIndex:0];
+        ((TeamProfileViewController*)segue.destinationViewController).team = self.teamsDictionaryArray[selectedIndexPath.row];
+    }
 }
 
 

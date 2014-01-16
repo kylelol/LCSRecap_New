@@ -17,5 +17,8 @@
 @property (nonatomic, strong) NSString* teamName;
 @property (nonatomic, strong) NSString *region;
 @property (nonatomic, strong) NSString *logoUrl;
+@property (nonatomic, strong) NSString *teamBannerImage;
+
+@property (nonatomic, strong) NSArray *players;
 
 @end

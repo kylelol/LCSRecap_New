@@ -10,8 +10,11 @@
 
 typedef void (^SeasonRetrievedFromParseCompletionBlock)(BOOL success, NSError *error, NSArray *seasons);
 typedef void (^TeamsRetrievedFromParseCompletionBlock)(BOOL success, NSError *error, NSArray *teams);
+typedef void (^PlayersRetrievedFromParseCompletionBlock)(BOOL success, NSError *error, NSArray *players);
+typedef void (^EventWeekRetrievedFromParseCompletionBlock)(BOOL success, NSError *error, NSArray *eventWeeks);
 
 @class SeasonModel;
+@class TeamModel;
 
 @interface ParseDatabaseUtility : NSObject
 
@@ -20,6 +23,10 @@ typedef void (^TeamsRetrievedFromParseCompletionBlock)(BOOL success, NSError *er
 
 -(void)requestAllTeamsForRegion:(NSString*)region
                  withCompletion:(TeamsRetrievedFromParseCompletionBlock)completionBlock;
+
+-(void)requestPlayersForTeam:(TeamModel*)team
+              withCompletion:(PlayersRetrievedFromParseCompletionBlock)completionBlock;
+-(void)requestEventWeeksForRegion:(NSString*)region forSeason:(NSString*)season forEvent:(NSString*)event withCompletion:(EventWeekRetrievedFromParseCompletionBlock)completionBlock;
 
 
 @end

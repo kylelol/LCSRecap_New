@@ -78,6 +78,57 @@
     return [NSArray arrayWithArray:self.allTeamsDictionary[region]];
 }
 
+-(NSArray *)getPlayersForTeam:(TeamModel*)team
+{
+    NSArray *array = self.allTeamsDictionary[team.region];
+    NSArray *teamArray;
+    
+    for (NSArray *aArray in array)
+    {
+        if( [((TeamModel*)aArray[0]).season isEqualToString:team.season] )
+        {
+            teamArray = aArray;
+            break;
+        }
+    }
+    
+    for (TeamModel *aTeam in teamArray)
+    {
+        if ( [aTeam.key isEqualToString:team.key])
+        {
+            return aTeam.players;
+        }
+    }
+    
+    return nil;
+}
+
+-(TeamModel*)getTeamForRegion:(NSString*)region ForSeason:(NSString*)season withTeamKey:(NSString*)key
+{
+    NSArray *array = self.allTeamsDictionary[region];
+    NSArray *teamArray;
+    
+    for (NSArray *aArray in array)
+    {
+        if( [((TeamModel*)aArray[0]).season isEqualToString:season] )
+        {
+            teamArray = aArray;
+            break;
+        }
+    }
+    
+    for (TeamModel *aTeam in teamArray)
+    {
+        if ( [aTeam.key isEqualToString:key])
+        {
+            return aTeam;
+        }
+    }
+    
+    return nil;
+}
+
+
 -(void)addSeasonsArrayToDictionary:(NSArray*)seasons
                          forRegion:(NSString*)region
 {
@@ -120,6 +171,32 @@ ToDictionaryForRegion:(NSString*)region
     
 
         
+}
+
+-(void)addPlayers:(NSArray*)players toTeam:(TeamModel*)team
+{
+    NSArray *array = self.allTeamsDictionary[team.region];
+    NSArray *teamArray;
+    
+    for (NSArray *aArray in array)
+    {
+        if( [((TeamModel*)aArray[0]).season isEqualToString:team.season] )
+        {
+            teamArray = aArray;
+            break;
+        }
+    }
+    
+    for (TeamModel *aTeam in teamArray)
+    {
+        if ( [aTeam.key isEqualToString:team.key])
+        {
+            aTeam.players = players;
+            [self saveAllTeamsDictionary];
+            break;
+        }
+    }
+    
 }
 
 -(void)saveImage:(UIImage *)image filename:(NSString *)filename

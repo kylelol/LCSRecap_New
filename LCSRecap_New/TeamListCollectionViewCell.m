@@ -7,6 +7,7 @@
 //
 
 #import "TeamListCollectionViewCell.h"
+#import "TeamListCollectionViewCellSelectionView.h"
 #import <QuartzCore/QuartzCore.h>
 
 @interface TeamListCollectionViewCell()
@@ -29,9 +30,11 @@
 
 -(void)awakeFromNib
 {
-    self.teamImageView.layer.cornerRadius = 15;
+    //self.teamImageView.layer.cornerRadius = 15;
     //self.imageBackgroundView.layer.cornerRadius = self.imageBackgroundView.frame.size.height;
-    self.teamImageView.clipsToBounds = YES;
+    //self.teamImageView.clipsToBounds = YES;
+    TeamListCollectionViewCellSelectionView *view = [[TeamListCollectionViewCellSelectionView alloc] initWithFrame:CGRectZero];
+    self.selectedBackgroundView = view;
 }
 
 /*

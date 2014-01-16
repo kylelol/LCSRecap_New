@@ -18,5 +18,6 @@
 
 @property (nonatomic, strong) NSArray *events;
 @property (nonatomic, strong) NSArray *eventKeys;
+@property (nonatomic, strong) NSDictionary *eventWeekDictionary;
 
 @end

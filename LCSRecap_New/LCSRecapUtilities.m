@@ -12,6 +12,8 @@
 #import "PersistencyManager.h"
 #import "SeasonModel.h"
 #import "TeamModel.h"
+#import "PlayerModel.h"
+#import "EventWeekModel.h"
 
 @interface LCSRecapUtilities()
 
@@ -26,6 +28,8 @@
     
     [SeasonModel registerSubclass];
     [TeamModel registerSubclass];
+    [PlayerModel registerSubclass];
+    [EventWeekModel registerSubclass];
     
     
     NSString *path = [[NSBundle mainBundle] pathForResource:@"keys" ofType:@"plist"];
@@ -76,6 +80,7 @@
             if (!error)
             {
                 [self.persistencyManager addSeasonsArrayToDictionary:seasons forRegion:region];
+                [self saveCurrentState];
             
                 if (completionBlock)
                 {
@@ -97,6 +102,18 @@
             completionBlock(YES, nil, [self.persistencyManager getSeasonsForRegion:region]);
         }
     }
+    
+}
+
+-(void)getEventWeeksForRegion:(NSString*)region forSeason:(NSString*)season forEvent:(NSString*)event withCompletion:(EventWeekRetrievedCompletionBLock)completionBlock
+{
+    
+    [self.parseDatabaseUtility requestEventWeeksForRegion:region forSeason:season forEvent:event
+                                           withCompletion:^(BOOL success, NSError *error, NSArray *eventWeeks) {
+                                               if (eventWeeks)
+                                                   NSLog(@"%@---yes", eventWeeks);
+                                               completionBlock(YES, eventWeeks);
+                                           }];
     
 }
 
@@ -134,6 +151,8 @@
                                                     forSeason:((SeasonModel*)seasons[i]).key];
                     }
                     
+                    [self saveCurrentState];;
+                    
                     if (completionBlock)
                         completionBlock(YES, error, [self.persistencyManager getAllTeamsForRegion:region]);
                 }
@@ -157,6 +176,7 @@
 {
     
     UIImage *image = [self.persistencyManager getImage:[url lastPathComponent]];
+    NSLog(@"%@", [url lastPathComponent]);
     
     if (image == nil)
     {
@@ -181,6 +201,29 @@
         if (completionBlock)
             completionBlock(YES, image);
     }
+}
+
+-(void)getPlayersForTeam:(TeamModel *)team withCompletion:(PlayersRetrievedCompletionBlock)completionBlock
+{
+    if ( ![self.persistencyManager getPlayersForTeam:team])
+    {
+        NSLog(@"need to retrieve teams");
+        
+        [self.parseDatabaseUtility requestPlayersForTeam:team withCompletion:^(BOOL success, NSError *error, NSArray *players)
+        {
+            [self.persistencyManager addPlayers:players toTeam:team];
+            
+            if (completionBlock)
+                completionBlock(YES, [self.persistencyManager getTeamForRegion:team.region ForSeason:team.season withTeamKey:team.key]);
+        }];
+        
+    }
+    else
+    {
+        if (completionBlock)
+            completionBlock(YES, [self.persistencyManager getTeamForRegion:team.region ForSeason:team.season withTeamKey:team.key]);
+    }
+
 }
 
 -(NSString*)getSeasonTitleForRegion:(NSString*)region atIndex:(NSUInteger)index

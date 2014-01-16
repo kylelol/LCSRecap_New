@@ -14,6 +14,7 @@
 @dynamic key;
 @dynamic events;
 @dynamic eventKeys;
+@dynamic eventWeekDictionary;
 
 +(NSString *)parseClassName
 {
@@ -36,6 +37,7 @@
     [aCoder encodeObject:self.key forKey:@"season-key"];
     [aCoder encodeObject:self.events forKey:@"season-events"];
     [aCoder encodeObject:self.eventKeys forKey:@"season-keys"];
+    [aCoder encodeObject:self.eventWeekDictionary forKey:@"event-week"];
 }
 
 - (id)initWithCoder:(NSCoder *)aDecoder
@@ -47,6 +49,7 @@
         self.key = [aDecoder decodeObjectForKey:@"season-key"];
         self.events = [aDecoder decodeObjectForKey:@"season-events"];
         self.eventKeys = [aDecoder decodeObjectForKey:@"season-keys"];
+        self.eventWeekDictionary = [aDecoder decodeObjectForKey:@"event-week"];
     }
     return self;
 }

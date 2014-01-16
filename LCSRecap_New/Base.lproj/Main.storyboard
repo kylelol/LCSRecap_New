@@ -24,7 +24,7 @@
                                     <tableViewCell contentMode="scaleToFill" selectionStyle="blue" hidesAccessoryWhenEditing="NO" indentationLevel="1" indentationWidth="0.0" id="3s0-H1-xvK">
                                         <rect key="frame" x="0.0" y="119" width="320" height="44"/>
                                         <autoresizingMask key="autoresizingMask"/>
-                                        <tableViewCellContentView key="contentView" opaque="NO" clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="center" tableViewCell="3s0-H1-xvK">
+                                        <tableViewCellContentView key="contentView" opaque="NO" clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="center" tableViewCell="3s0-H1-xvK" id="6Xn-JH-S0T">
                                             <rect key="frame" x="0.0" y="0.0" width="320" height="43"/>
                                             <autoresizingMask key="autoresizingMask"/>
                                         </tableViewCellContentView>
@@ -36,11 +36,80 @@
                     <navigationItem key="navigationItem" id="iuc-NN-1EN"/>
                     <connections>
                         <outlet property="tableView" destination="jYL-8w-ZCW" id="yi6-uS-3Tk"/>
+                        <segue destination="g5d-f4-QZ8" kind="push" identifier="EventWeekVC" id="ttQ-1T-egX"/>
                     </connections>
                 </viewController>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="x5A-6p-PRh" sceneMemberID="firstResponder"/>
             </objects>
-            <point key="canvasLocation" x="810" y="99"/>
+            <point key="canvasLocation" x="800" y="21"/>
+        </scene>
+        <!--Event Week Host View Controller-->
+        <scene sceneID="PG8-HJ-tGM">
+            <objects>
+                <viewController id="g5d-f4-QZ8" customClass="EventWeekHostViewController" sceneMemberID="viewController">
+                    <layoutGuides>
+                        <viewControllerLayoutGuide type="top" id="s3W-ev-gsS"/>
+                        <viewControllerLayoutGuide type="bottom" id="0Vl-CK-har"/>
+                    </layoutGuides>
+                    <view key="view" contentMode="scaleToFill" id="7Zh-43-ePu">
+                        <rect key="frame" x="0.0" y="0.0" width="320" height="568"/>
+                        <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
+                        <color key="backgroundColor" white="1" alpha="1" colorSpace="custom" customColorSpace="calibratedWhite"/>
+                    </view>
+                    <navigationItem key="navigationItem" id="IGv-1g-owH"/>
+                </viewController>
+                <placeholder placeholderIdentifier="IBFirstResponder" id="O8m-Zr-jPV" userLabel="First Responder" sceneMemberID="firstResponder"/>
+            </objects>
+            <point key="canvasLocation" x="1180" y="28"/>
+        </scene>
+        <!--Event Week View Controller-->
+        <scene sceneID="siC-mD-pZD">
+            <objects>
+                <viewController storyboardIdentifier="EventWeekContentVC" id="EJ8-Ho-unu" customClass="EventWeekViewController" sceneMemberID="viewController">
+                    <layoutGuides>
+                        <viewControllerLayoutGuide type="top" id="9e5-9D-Yq9"/>
+                        <viewControllerLayoutGuide type="bottom" id="c44-KO-anl"/>
+                    </layoutGuides>
+                    <view key="view" contentMode="scaleToFill" id="77T-Q4-5Sh">
+                        <rect key="frame" x="0.0" y="0.0" width="320" height="568"/>
+                        <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
+                        <subviews>
+                            <collectionView opaque="NO" clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="scaleToFill" fixedFrame="YES" minimumZoomScale="0.0" maximumZoomScale="0.0" dataMode="prototypes" translatesAutoresizingMaskIntoConstraints="NO" id="UM6-Sn-WNO">
+                                <rect key="frame" x="0.0" y="0.0" width="320" height="568"/>
+                                <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
+                                <color key="backgroundColor" cocoaTouchSystemColor="groupTableViewBackgroundColor"/>
+                                <collectionViewFlowLayout key="collectionViewLayout" minimumLineSpacing="10" minimumInteritemSpacing="10" id="6kL-MR-fpQ">
+                                    <size key="itemSize" width="50" height="50"/>
+                                    <size key="headerReferenceSize" width="0.0" height="0.0"/>
+                                    <size key="footerReferenceSize" width="0.0" height="0.0"/>
+                                    <inset key="sectionInset" minX="0.0" minY="0.0" maxX="0.0" maxY="0.0"/>
+                                </collectionViewFlowLayout>
+                                <cells>
+                                    <collectionViewCell opaque="NO" clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="center" id="qCe-sz-pmv">
+                                        <rect key="frame" x="0.0" y="0.0" width="50" height="50"/>
+                                        <autoresizingMask key="autoresizingMask"/>
+                                        <view key="contentView" opaque="NO" clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="center">
+                                            <rect key="frame" x="0.0" y="0.0" width="50" height="50"/>
+                                            <autoresizingMask key="autoresizingMask"/>
+                                            <color key="backgroundColor" white="0.0" alpha="0.0" colorSpace="calibratedWhite"/>
+                                        </view>
+                                    </collectionViewCell>
+                                </cells>
+                                <connections>
+                                    <outlet property="dataSource" destination="EJ8-Ho-unu" id="g6c-oV-8dR"/>
+                                    <outlet property="delegate" destination="EJ8-Ho-unu" id="t2v-et-HiJ"/>
+                                </connections>
+                            </collectionView>
+                        </subviews>
+                        <color key="backgroundColor" white="1" alpha="1" colorSpace="custom" customColorSpace="calibratedWhite"/>
+                    </view>
+                    <connections>
+                        <outlet property="collectionView" destination="UM6-Sn-WNO" id="D4U-Uf-JNo"/>
+                    </connections>
+                </viewController>
+                <placeholder placeholderIdentifier="IBFirstResponder" id="eKX-Nz-Htf" userLabel="First Responder" sceneMemberID="firstResponder"/>
+            </objects>
+            <point key="canvasLocation" x="1556" y="16"/>
         </scene>
         <!--Team List Host View Controller-->
         <scene sceneID="hh7-CO-F0J">
@@ -58,7 +127,7 @@
                 </viewController>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="xsh-CE-Bsu" userLabel="First Responder" sceneMemberID="firstResponder"/>
             </objects>
-            <point key="canvasLocation" x="574" y="742"/>
+            <point key="canvasLocation" x="401" y="694"/>
         </scene>
         <!--Teams List View Controller-->
         <scene sceneID="hW7-9K-r4R">
@@ -105,11 +174,61 @@
                     <navigationItem key="navigationItem" id="7D1-Tp-cDn"/>
                     <connections>
                         <outlet property="collectionView" destination="fwu-j7-fVd" id="1VV-Mt-OZi"/>
+                        <segue destination="5nd-N0-V9Y" kind="push" identifier="TeamProfileVC" id="igW-sW-Dg6"/>
                     </connections>
                 </viewController>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="eHk-ZJ-qdk" userLabel="First Responder" sceneMemberID="firstResponder"/>
             </objects>
-            <point key="canvasLocation" x="1076" y="746"/>
+            <point key="canvasLocation" x="766" y="699"/>
+        </scene>
+        <!--Team Profile View Controller-->
+        <scene sceneID="NLp-Ft-OuU">
+            <objects>
+                <viewController id="5nd-N0-V9Y" customClass="TeamProfileViewController" sceneMemberID="viewController">
+                    <layoutGuides>
+                        <viewControllerLayoutGuide type="top" id="wlf-Su-Pk7"/>
+                        <viewControllerLayoutGuide type="bottom" id="nY4-Ak-L3Z"/>
+                    </layoutGuides>
+                    <view key="view" contentMode="scaleToFill" id="Bgo-ZR-DBZ">
+                        <rect key="frame" x="0.0" y="0.0" width="320" height="568"/>
+                        <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
+                        <subviews>
+                            <scrollView clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="scaleToFill" fixedFrame="YES" translatesAutoresizingMaskIntoConstraints="NO" id="1VM-dm-r1E">
+                                <rect key="frame" x="0.0" y="0.0" width="320" height="568"/>
+                                <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
+                                <color key="backgroundColor" cocoaTouchSystemColor="groupTableViewBackgroundColor"/>
+                            </scrollView>
+                        </subviews>
+                        <color key="backgroundColor" white="1" alpha="1" colorSpace="custom" customColorSpace="calibratedWhite"/>
+                    </view>
+                    <navigationItem key="navigationItem" id="AY2-8j-gNH"/>
+                    <connections>
+                        <outlet property="scrollView" destination="1VM-dm-r1E" id="Cgq-3e-1s5"/>
+                        <segue destination="HPX-jR-gs4" kind="push" identifier="PlayerProfileVC" id="DJW-OE-R55"/>
+                    </connections>
+                </viewController>
+                <placeholder placeholderIdentifier="IBFirstResponder" id="mzk-wM-kmi" userLabel="First Responder" sceneMemberID="firstResponder"/>
+            </objects>
+            <point key="canvasLocation" x="1148" y="694"/>
+        </scene>
+        <!--View Controller-->
+        <scene sceneID="FIA-yW-5iX">
+            <objects>
+                <viewController id="HPX-jR-gs4" sceneMemberID="viewController">
+                    <layoutGuides>
+                        <viewControllerLayoutGuide type="top" id="vsH-pr-WPm"/>
+                        <viewControllerLayoutGuide type="bottom" id="OiY-Gi-UlE"/>
+                    </layoutGuides>
+                    <view key="view" contentMode="scaleToFill" id="tr1-hG-9rU">
+                        <rect key="frame" x="0.0" y="0.0" width="320" height="568"/>
+                        <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
+                        <color key="backgroundColor" white="1" alpha="1" colorSpace="custom" customColorSpace="calibratedWhite"/>
+                    </view>
+                    <navigationItem key="navigationItem" id="6b9-Gc-e8H"/>
+                </viewController>
+                <placeholder placeholderIdentifier="IBFirstResponder" id="7YN-pM-kfG" userLabel="First Responder" sceneMemberID="firstResponder"/>
+            </objects>
+            <point key="canvasLocation" x="1500" y="694"/>
         </scene>
         <!--Root View Controller-->
         <scene sceneID="hIu-1w-Yip">

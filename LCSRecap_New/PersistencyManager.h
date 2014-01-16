@@ -8,10 +8,14 @@
 
 #import <Foundation/Foundation.h>
 
+@class TeamModel;
+
 @interface PersistencyManager : NSObject
 
 -(NSArray *)getSeasonsForRegion:(NSString*)region;
 -(NSArray *)getAllTeamsForRegion:(NSString*)region;
+-(NSArray *)getPlayersForTeam:(TeamModel*)team;
+-(TeamModel*)getTeamForRegion:(NSString*)region ForSeason:(NSString*)season withTeamKey:(NSString*)key;
 
 -(void)addSeasonsArrayToDictionary:(NSArray*)seasons
                     forRegion:(NSString*)region;
@@ -20,6 +24,7 @@
 ToDictionaryForRegion:(NSString*)region
 
           forSeason:(NSString*)season;
+-(void)addPlayers:(NSArray*)players toTeam:(TeamModel*)team;
 
 -(void)saveData;
 -(void)saveImage:(UIImage *)image filename:(NSString *)filename;

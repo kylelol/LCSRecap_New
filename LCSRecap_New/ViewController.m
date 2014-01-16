@@ -10,11 +10,17 @@
 #import "LCSRecapUtilities.h"
 #import "SeasonModel.h"
 #import "SeasonEventCell.h"
+#import "EventWeekHostViewController.h"
 
 @interface ViewController () <UITableViewDataSource, UITableViewDelegate>
+{
+    SeasonModel *selectedSeason;
+    NSInteger selectedRow;
+}
 
 @property (nonatomic, weak) IBOutlet UITableView *tableView;
 @property (nonatomic, strong) NSArray *seasonsArray;
+
 
 @end
 
@@ -34,6 +40,7 @@
                                                  withCompletion:^(BOOL success, NSError *error, NSArray *seasons){
                                                      if (success)
                                                      {
+                                                         NSLog(@"%@", seasons);
                                                          self.seasonsArray = seasons;
                                                          [self.tableView reloadData];
                                                      }
@@ -91,6 +98,32 @@
 -(CGFloat)tableView:(UITableView *)tableView heightForRowAtIndexPath:(NSIndexPath *)indexPath
 {
     return 77;
+}
+
+-(void)tableView:(UITableView *)tableView didSelectRowAtIndexPath:(NSIndexPath *)indexPath
+{
+    SeasonModel *season = [self.seasonsArray objectAtIndex:indexPath.section];
+    
+    selectedSeason = season;
+    selectedRow = indexPath.row;
+    [self performSegueWithIdentifier:@"EventWeekVC" sender:nil];
+        
+}
+
+-(void)prepareForSegue:(UIStoryboardSegue *)segue sender:(id)sender
+{
+    if ([segue.identifier isEqualToString:@"EventWeekVC"])
+    {
+        if (selectedSeason)
+        {
+            ((EventWeekHostViewController*)segue.destinationViewController).currentSeason = selectedSeason;
+            ((EventWeekHostViewController*)segue.destinationViewController).eventIndex = selectedRow;
+
+        }
+        
+        selectedSeason = nil;
+        selectedRow = 0;
+    }
 }
 
 @end
